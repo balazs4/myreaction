@@ -16,13 +16,16 @@ class App extends Component {
     }
 
     render() {
-        const {fetch, isFetching} = this.props;
+        const {fetch, isFetching, result} = this.props;
         const {username} = this.state;
         return (
             <div>
-                <input type="text" placeholder="Username" value={username} onChange={this.handleInputChange} />
+                <input type="text" placeholder="GitHub Username" value={username} onChange={this.handleInputChange} />
                 <button type="button" onClick={e => fetch(username)} disabled={isFetching}>Fetch</button>
                 {isFetching ? <p>Fetching...</p> : <div />}
+                <div>
+                    {result ? <img src={result.avatar_url} /> : <div />}
+                </div>
             </div>
         );
     }
@@ -30,7 +33,8 @@ class App extends Component {
 
 export default connect(
     state => ({
-        isFetching: state.isFetching
+        isFetching: state.isFetching,
+        result: state.result
     }),
     dispatch => ({
         fetch: (username) => {
