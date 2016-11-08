@@ -10,18 +10,20 @@ class App extends Component {
         }
     }
 
-
     handleInputChange(e) {
-        this.setState({ username: e.target.value });
+        const {fetch} = this.props;
+        const username = e.target.value;
+        this.setState({ username }, () => {
+            fetch(username);
+        });
     }
 
     render() {
-        const {fetch, isFetching, result} = this.props;
+        const {isFetching, result} = this.props;
         const {username} = this.state;
         return (
             <div>
                 <input type="text" placeholder="GitHub Username" value={username} onChange={this.handleInputChange} />
-                <button type="button" onClick={e => fetch(username)} disabled={isFetching}>Fetch</button>
                 {isFetching ? <p>Fetching...</p> : <div />}
                 <div>
                     {result ? <img src={result.avatar_url} /> : <div />}
@@ -38,6 +40,7 @@ export default connect(
     }),
     dispatch => ({
         fetch: (username) => {
+            dispatch({ type: 'FETCH_USER_CANCEL' })
             dispatch({ type: 'FETCH_USER', username })
         }
     })

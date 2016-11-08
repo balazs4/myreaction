@@ -13,19 +13,27 @@ import { createEpicMiddleware } from 'redux-observable';
 const epic = (action$) =>
     action$
         .ofType('FETCH_USER')
+        //.delay(2000)
         .mergeMap(action =>
             Rx.Observable
                 .ajax
-                .getJSON(`https://api.github.com/users/${action.username}`)
+                //.getJSON(`https://api.github.com/users/${action.username}`)
+                .getJSON(`http://localhost:3000/users/${action.username}`)
                 .map(result => ({ type: 'FETCH_USER_RESOLVE', result }))
+                .catch(error => Rx.Observable.of({
+                    type: 'FETCH_USER_RESOLVE',
+                    error: error.xhr.response
+                }))
+                .takeUntil(action$.ofType('FETCH_USER_CANCEL'))
         );
 
 
 const reducer = (state, action) => {
     switch (action.type) {
         case 'FETCH_USER':
-            return Object.assign({}, state, { isFetching: true })
+            return Object.assign({}, state, { isFetching: true, result: undefined })
         case 'FETCH_USER_REJECT':
+        case 'FETCH_USER_CANCEL':
             return Object.assign({}, state, { isFetching: false });
         case 'FETCH_USER_RESOLVE':
             return Object.assign({}, state, { isFetching: false, result: action.result });
