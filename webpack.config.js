@@ -2,7 +2,8 @@ const {join} = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = {
+
+module.exports = env => ({
     entry: {
         app: join(__dirname, 'src', 'index.js'),
         vendor: ['react', 'react-dom', 'redux', 'redux-observable', 'rxjs']
@@ -12,16 +13,11 @@ module.exports = {
         filename: '[name].[hash].js'
     },
     module: {
-        loaders: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                loader: 'babel-loader',
-                query: {
-                    cacheDirectory: true,
-                },
-            }
-        ]
+        loaders: [{
+            test: /\.js$/,
+            exclude: /node_modules/,
+            loader: 'babel-loader'
+        }]
     },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
@@ -35,4 +31,5 @@ module.exports = {
             inject: 'body'
         })
     ]
-}
+})
+

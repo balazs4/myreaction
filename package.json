@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build:prod": "webpack --config webpack.config.prod.js",
-    "build:dev": "webpack --config webpack.config.dev.js",
+    "build:prod": "webpack -p --progress",
+    "build:dev": "webpack --progress",
     "build": "npm run build:prod",
-    "dev": "webpack-dev-server --hot --inline --content-base dist --config webpack.config.dev.js",
+    "dev": "webpack-dev-server --hot --inline --content-base dist",
     "clean": "rm -rfv ./dist"
   },
   "keywords": [],
