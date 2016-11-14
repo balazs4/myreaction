@@ -24,7 +24,7 @@ class App extends Component {
         return (
             <div>
                 <input type="text" placeholder="GitHub Username" value={username} onChange={this.handleInputChange} />
-                {isFetching ? <p>Fetching...</p> : <div />}
+                {isFetching ? <p>Fetching data...</p> : <div />}
                 <div>
                     {result ? <img src={result.avatar_url} /> : <div />}
                 </div>

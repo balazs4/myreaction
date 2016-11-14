@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build:prod": "webpack -p --progress",
-    "build:dev": "webpack --progress",
-    "build": "npm run build:prod",
-    "dev": "webpack-dev-server --hot --inline --content-base dist",
-    "clean": "rm -rfv ./dist"
+    "prebuild": "npm run clean",
+    "build": "webpack --env",
+    "build:prod": "npm run build -- -p",
+    "dev": "webpack-dev-server --hot --inline --compress --info --progress --content-base dist  -d",
+    "clean": "rm -r ./dist"
   },
   "keywords": [],
   "author": "",
